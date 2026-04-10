@@ -1,47 +1,58 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
-// Bogie class
+// Bogie Class
 class Bogie {
     String name;
     int capacity;
 
+    // Constructor
     Bogie(String name, int capacity) {
         this.name = name;
         this.capacity = capacity;
     }
 
-    public String toString() {
-        return name + " -> " + capacity;
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void display() {
+        System.out.println(name + " - Capacity: " + capacity);
     }
 }
 
+// Main Class
 public class TrainConsistManagementApp {
+
+    // Method for filtering (IMPORTANT for testing)
+    public static List<Bogie> filterBogies(List<Bogie> bogies, int threshold) {
+        return bogies.stream()
+                .filter(b -> b.getCapacity() > threshold)
+                .collect(Collectors.toList());
+    }
 
     public static void main(String[] args) {
 
-        System.out.println("=== Train Consist Management App ===");
+        System.out.println("=== Filter Passenger Bogies (Capacity > 60) ===");
 
-        // Create list of bogies (same as UC7)
+        // Create list
         List<Bogie> bogies = new ArrayList<>();
         bogies.add(new Bogie("Sleeper", 72));
         bogies.add(new Bogie("AC Chair", 56));
-        bogies.add(new Bogie("First Class", 48));
+        bogies.add(new Bogie("First Class", 24));
+        bogies.add(new Bogie("General", 90));
 
-        // Filter bogies with capacity > 60
-        List<Bogie> filteredBogies = bogies.stream()
-                .filter(b -> b.capacity > 60)
-                .collect(Collectors.toList());
+        // Filter
+        List<Bogie> filtered = filterBogies(bogies, 60);
 
-        // Display filtered bogies
-        System.out.println("Filtered Bogies (capacity > 60):");
-        for (Bogie b : filteredBogies) {
-            System.out.println(b);
+        // Display result
+        System.out.println("\nFiltered Bogies:");
+        for (Bogie b : filtered) {
+            b.display();
         }
-
-        // Show original list unchanged
-        System.out.println("Original Bogies:");
-        System.out.println(bogies);
     }
 }
